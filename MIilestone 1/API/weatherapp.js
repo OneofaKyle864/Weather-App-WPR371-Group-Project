@@ -1,30 +1,26 @@
-
 const express = require('express');
 const app = express();
-const port = 3000;
-//Add https to access our OpenWeather API
-const https= require('https');
+const port = 3001;
 
-const zipcode = '1709';
-const countrycode= "ZAF"
-const apiKey= "1709e56d9c6b91523ab2d15260ac59b1";
-const api = "https://api.openweathermap.org/geo/1.0/zip?zip="+ zipcode + countrycode + "&appid=" + apiKey;
+const https = require('https');
+const apikey = "06e1969da55a4b51d0b4447dcd9c92eb";
+const lat = "-25.74486";
+const lon = "28.18783";
 
-app.get('/', (req, res) => {
+const api = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid="+apikey;
+app.get('/', function(req, res) {
     https.get(api, function(response){
-       // console.log(response.statusCode);//Check Connection 
-        response.on('data', function(data)
-        {
-           const weatherData = JSON.parse(data);
+        console.log(response.statusCode);
+        response.on("data", function(data){
+            const weatherData = JSON.parse(data);
             console.log(weatherData);
         });
-    });
-    res.send('Server is running!');
+    })
+    res.send("Server is running");
 });
 
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(port, function() {
+    console.log("Server is listening on port " + port);
 });
 
 
